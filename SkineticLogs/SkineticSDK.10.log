@@ -1,0 +1,10 @@
+[2025-11-18 16:58:06.125] [SkineticSDK] [info] [Skinetic] Command: loadPatternFromJSON ## {"tracks":[{"name":"Haptic 1","volume":100,"samples":[{"timestamp":0.0,"signalIndex":20,"speed":1.0,"repeatCount":1,"preDelay":0.0,"postDelay":0.0,"maxDuration":0.321375,"repeatSpat":false,"spatKeyframes":[{"timestamp":0.0,"vicinities":[{"position":[0.1,0.0,0.0],"orientation":[0.0,0.0,0.0,1.0],"scale":[0.1,0.08448831,0.16578937],"amplitude":100,"name":"Shape_001"}]}],"volumeKeyframes":[],"startCrop":0.0,"stopCrop":0.0}]}],"description":"","author":"","duration":0.322,"gui":{"tracks":[{"solo":false,"muted":false,"lock":false,"id":0,"color":"bg-[#dc1fc9]"}]},"patternBoost":10}
+[2025-11-18 16:58:06.125] [SkineticSDK] [info] [Sequencer] Pattern loaded. Assigned to ID: 0
+[2025-11-18 16:58:09.845] [SkineticSDK] [info] [Skinetic] Command: setConnectionCallback (000002433416D530)
+[2025-11-18 16:58:09.845] [SkineticSDK] [info] [Skinetic] Command: connect(0, 0)
+[2025-11-18 16:58:10.352] [SkineticSDK] [info] [Sequencer] Pattern of ID 0 reloaded.
+[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Connection routine terminated: connectionCallback called.
+[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] SDK Version: 1.4.2
+[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Serial Number: 389218328
+[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Skinetic Version: 1.3.3
+[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Skinetic Type: 17826049
