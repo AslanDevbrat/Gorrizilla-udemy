@@ -35,9 +35,13 @@ public class Turret : MonoBehaviour
         randomSeed = Random.Range(0f, 100f);
     }
 
+    public string pqZone = "";
+
     void FixedUpdate()
     {
         LookAtPlayer();
+
+        if (GameManager.Mode == "PQ") return;
 
         // Raycast using the current aim direction
         if (canAttack && Physics.Raycast(turretHead.position, turretHead.forward, out RaycastHit hitInfo, Mathf.Infinity, laserLayer, QueryTriggerInteraction.Collide))
@@ -52,6 +56,20 @@ public class Turret : MonoBehaviour
                 fireTimer += Time.fixedDeltaTime;
             }
         }
+    }
+
+    public void FirePQBullet(Vector3 targetPos, float travelTime)
+    {
+        Vector3 dir = (targetPos - turretHead.position).normalized;
+        float dist = Vector3.Distance(turretHead.position, targetPos);
+        float speed = dist / travelTime;
+
+        Vector3 spawnPos = turretHead.position + dir * 0.1f;
+        var bulletGO = Instantiate(bulletPrefab, spawnPos, Quaternion.LookRotation(dir), transform);
+        var rb = bulletGO.GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.linearVelocity = dir * speed;
+        Destroy(bulletGO, travelTime + 0.5f);
     }
 
     void LookAtPlayer()

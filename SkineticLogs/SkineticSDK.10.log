@@ -1,10 +1,30 @@
-[2025-11-18 16:58:06.125] [SkineticSDK] [info] [Skinetic] Command: loadPatternFromJSON ## {"tracks":[{"name":"Haptic 1","volume":100,"samples":[{"timestamp":0.0,"signalIndex":20,"speed":1.0,"repeatCount":1,"preDelay":0.0,"postDelay":0.0,"maxDuration":0.321375,"repeatSpat":false,"spatKeyframes":[{"timestamp":0.0,"vicinities":[{"position":[0.1,0.0,0.0],"orientation":[0.0,0.0,0.0,1.0],"scale":[0.1,0.08448831,0.16578937],"amplitude":100,"name":"Shape_001"}]}],"volumeKeyframes":[],"startCrop":0.0,"stopCrop":0.0}]}],"description":"","author":"","duration":0.322,"gui":{"tracks":[{"solo":false,"muted":false,"lock":false,"id":0,"color":"bg-[#dc1fc9]"}]},"patternBoost":10}
-[2025-11-18 16:58:06.125] [SkineticSDK] [info] [Sequencer] Pattern loaded. Assigned to ID: 0
-[2025-11-18 16:58:09.845] [SkineticSDK] [info] [Skinetic] Command: setConnectionCallback (000002433416D530)
-[2025-11-18 16:58:09.845] [SkineticSDK] [info] [Skinetic] Command: connect(0, 0)
-[2025-11-18 16:58:10.352] [SkineticSDK] [info] [Sequencer] Pattern of ID 0 reloaded.
-[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Connection routine terminated: connectionCallback called.
-[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] SDK Version: 1.4.2
-[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Serial Number: 389218328
-[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Skinetic Version: 1.3.3
-[2025-11-18 16:58:10.353] [SkineticSDK] [info] [Sequencer] Skinetic Type: 17826049
+[2026-06-15 23:01:09.828] [SkineticSDK] [info] Init Logger
+[2026-06-15 23:01:09.828] [SkineticSDK] [info] [Skinetic] Command: loadPatternFromJSON ## {"tracks":[{"name":"Haptic 1","volume":100,"samples":[{"timestamp":0.0,"signalIndex":20,"speed":1.0,"repeatCount":1,"preDelay":0.0,"postDelay":0.0,"maxDuration":0.321375,"repeatSpat":false,"spatKeyframes":[{"timestamp":0.0,"vicinities":[{"position":[0.1,0.0,0.0],"orientation":[0.0,0.0,0.0,1.0],"scale":[0.1,0.08448831,0.16578937],"amplitude":100,"name":"Shape_001"}]}],"volumeKeyframes":[],"startCrop":0.0,"stopCrop":0.0}]}],"description":"","author":"","duration":0.322,"gui":{"tracks":[{"solo":false,"muted":false,"lock":false,"id":0,"color":"bg-[#dc1fc9]"}]},"patternBoost":10}
+[2026-06-15 23:01:09.828] [SkineticSDK] [info] [Sequencer] Pattern loaded. Assigned to ID: 0
+[2026-06-15 23:01:09.904] [SkineticSDK] [info] [Skinetic] Command: setConnectionCallback (0000015312568AD0)
+[2026-06-15 23:01:09.904] [SkineticSDK] [info] [Skinetic] Command: connect(0, 0)
+[2026-06-15 23:01:10.410] [SkineticSDK] [info] [Sequencer] Pattern of ID 0 reloaded.
+[2026-06-15 23:01:10.411] [SkineticSDK] [info] [Sequencer] Connection routine terminated: connectionCallback called.
+[2026-06-15 23:01:10.411] [SkineticSDK] [info] [Sequencer] SDK Version: 1.4.2
+[2026-06-15 23:01:10.411] [SkineticSDK] [info] [Sequencer] Serial Number: 389218328
+[2026-06-15 23:01:10.411] [SkineticSDK] [info] [Sequencer] Skinetic Version: 1.3.3
+[2026-06-15 23:01:10.411] [SkineticSDK] [info] [Sequencer] Skinetic Type: 17826049
+[2026-06-15 23:01:44.035] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.246271, head: 47.7878, tilt: 12.3033, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:01:44.035] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 0
+[2026-06-15 23:01:50.171] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.297854, head: 41.6258, tilt: 11.1968, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:01:50.171] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 1
+[2026-06-15 23:01:55.131] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.291074, head: 0.0815647, tilt: 16.8166, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:01:55.131] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 2
+[2026-06-15 23:01:57.534] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.313215, head: 2.14822, tilt: 16.0257, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:01:57.534] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 3
+[2026-06-15 23:02:01.171] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.158027, head: 4.26632, tilt: 21.8483, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:02:01.171] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 4
+[2026-06-15 23:02:03.532] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.190458, head: -24.2178, tilt: 19.3673, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:02:03.532] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 5
+[2026-06-15 23:02:05.574] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.280522, head: -24.2486, tilt: 16.3707, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:02:05.574] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 6
+[2026-06-15 23:02:07.447] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.212054, head: 63.9112, tilt: 16.6356, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:02:07.447] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 7
+[2026-06-15 23:02:07.554] [SkineticSDK] [info] [Skinetic] Command: playEffect(ID: 0, pr : 5, vol: 100, spd: 1, rpc: 1, rpd: 0, pat: 0, md: 0, boost: 0, override: 0, height: 0.0513573, head: 65.672, tilt: 22.468, frInv: 0, upInv: 0, riInv: 0, frAdd: 0, upAdd: 0, riAdd: 0)
+[2026-06-15 23:02:07.554] [SkineticSDK] [info] [Sequencer] Effect assigned to ID: 8
+[2026-06-15 23:02:09.130] [SkineticSDK] [info] [Sequencer] Disconnection routine terminated: connectionCallback called.

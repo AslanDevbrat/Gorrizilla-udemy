@@ -11,6 +11,54 @@ namespace GorillaZilla
     [RequireComponent(typeof(Level))]
     public class GameManager : MonoBehaviour
     {
+        public static string Mode { get; set; } = "No PQ";
+
+        public static GameManager Instance { get; private set; }
+
+        public static Dictionary<string, Turret> PQTurrets { get; } = new Dictionary<string, Turret>();
+
+        public static void TriggerPQFire()
+        {
+            if (PQTurrets.Count == 0 || Instance == null) return;
+
+            Transform playerHead = Camera.main.transform;
+
+            float maxDist = 0f;
+            float refSpeed = 5f;
+            foreach (var kv in PQTurrets)
+            {
+                if (kv.Value == null) continue;
+                float dist = Vector3.Distance(kv.Value.turretHead.position, Instance.GetChestTarget(kv.Key, playerHead));
+                if (dist > maxDist) { maxDist = dist; refSpeed = kv.Value.bulletSpeed; }
+            }
+
+            float travelTime = maxDist / refSpeed;
+
+            foreach (var kv in PQTurrets)
+            {
+                if (kv.Value == null) continue;
+                kv.Value.FirePQBullet(Instance.GetChestTarget(kv.Key, playerHead), travelTime);
+            }
+        }
+
+        [Header("PQ Chest Targets")]
+        [SerializeField] private float chestUpperY = -0.3f;
+        [SerializeField] private float chestLowerY = -0.5f;
+        [SerializeField] private float chestDepth = 0.15f;
+
+        private Vector3 GetChestTarget(string zone, Transform playerHead)
+        {
+            Vector3 bodyCenter = playerHead.position;
+            switch (zone)
+            {
+                case "upperFront":
+                case "upperBack":  return bodyCenter + Vector3.up * chestUpperY;
+                case "lowerFront":
+                case "lowerBack":  return bodyCenter + Vector3.up * chestLowerY;
+                default:           return bodyCenter + Vector3.up * ((chestUpperY + chestLowerY) * 0.5f);
+            }
+        }
+
         [Header("Dependencies")]
         [SerializeField] Player player;
 
@@ -30,6 +78,7 @@ namespace GorillaZilla
 
         private void Awake()
         {
+            Instance = this;
             level = GetComponent<Level>();
             level.onWaveSpawned.AddListener(OnWaveSpawned);
             level.onLastEnemyDestroyed.AddListener(OnLastEnemyDestroyed);
@@ -49,8 +98,21 @@ namespace GorillaZilla
         public void OnPlayerHit()
         {
             waveNum = 0;
-            //GameOver();
+            // GameOver();
         }
+        private void Update()
+        {
+            if (Mode == "PQ" && OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
+            {
+                var haptics = PlayerHaptics.Instance;
+                if (haptics != null && haptics.HasLastEffect)
+                {
+                    TriggerPQFire();
+                    haptics.ArmLastEffect();
+                }
+            }
+        }
+
         Wave MakeWave(int waveNum)
         {
             Wave wave = Wave.Copy(waveTemplate);

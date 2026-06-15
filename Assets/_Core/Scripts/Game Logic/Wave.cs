@@ -12,6 +12,7 @@ namespace GorillaZilla
         public List<Spawnable> buildings;
         public List<Spawnable> enemies;
         public Spawnable powerUpBuilding;
+        public Spawnable turretEnemy;
         public Spawnable GetRandomBuilding()
         {
             return GetRandomSpawnable(buildings);
@@ -66,6 +67,7 @@ namespace GorillaZilla
             wave.buildings = waveTemplate.buildings;
             wave.powerUpBuilding = waveTemplate.powerUpBuilding;
             wave.enemies = waveTemplate.enemies;
+            wave.turretEnemy = waveTemplate.turretEnemy;
             return wave;
         }
     }

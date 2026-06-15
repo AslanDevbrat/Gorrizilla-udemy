@@ -62,11 +62,12 @@ namespace GorillaZilla
 
             Debug.Log("OnBodyCOllison");
            
-            // 1. Play Haptics first using the collision data
             if (playerHaptics != null)
             {
-                playerHaptics.PlayImpactHaptic(collision);
-
+                if (GameManager.Mode == "PQ")
+                    playerHaptics.OnPQBulletHit();
+                else
+                    playerHaptics.PlayImpactHaptic(collision);
             }
 
             // 2. Destroy the bullet so it doesn't bounce off weirdly

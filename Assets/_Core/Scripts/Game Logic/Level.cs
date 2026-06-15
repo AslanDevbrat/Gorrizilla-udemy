@@ -23,10 +23,10 @@ namespace GorillaZilla
 
         private void Awake()
         {
-            if (roomManager == null)
-            {
-                roomManager = GameObject.FindObjectOfType<RoomManager>();
-            }
+            // if (roomManager == null)
+            // {
+            //     roomManager = GameObject.FindObjectOfType<RoomManager>();
+            // }
             buildingsRoot = new GameObject("Buildings").transform;
             buildingsRoot.parent = transform;
             enemiesRoot = new GameObject("Enemies").transform;
@@ -47,15 +47,99 @@ namespace GorillaZilla
         {
             spawnedEnemies.Clear();
             spawnedBuildings.Clear();
+            GameManager.PQTurrets.Clear();
+            // Zones match cornerAngles order: { -30, +30, +150, -150 }
+            string[] cornerZones = { "lowerBack", "upperFront", "lowerFront", "upperBack" };
             int numBuildings = wave.numBuildings;
             int numEnemies = wave.numEnemies;
             List<Transform> enemySpawnPoints = new List<Transform>();
             List<Vector3> availableLocations = GetAvailableSpawnLocations();
 
-            //Spawn Buildings
-            for (int i = 0; i < numBuildings + 1; i++)
-            {
+            // Pick 4 corner locations relative to headset facing direction at spawn time
+            Vector3 center = Vector3.zero;
+            foreach (var loc in availableLocations) center += loc;
+            center /= availableLocations.Count;
 
+            Vector3 camForward = Camera.main.transform.forward;
+            camForward.y = 0;
+            camForward.Normalize();
+            float playerAngle = Mathf.Atan2(camForward.z, camForward.x) * Mathf.Rad2Deg;
+            float[] cornerAngles = { playerAngle - 30f, playerAngle + 30f, playerAngle + 150f, playerAngle - 150f };
+            List<Vector3> cornerLocations = new List<Vector3>();
+            foreach (float angle in cornerAngles)
+            {
+                if (availableLocations.Count == 0) break;
+                Vector3 loc = FindLocationClosestToAngle(availableLocations, angle, center);
+                cornerLocations.Add(loc);
+                availableLocations.Remove(loc);
+            }
+
+            // Spawn 4 corner buildings first, tinted red for visibility
+            List<Transform> cornerTurretSpawnPoints = new List<Transform>();
+            foreach (Vector3 spawnPosition in cornerLocations)
+            {
+                float randomYRot = UnityEngine.Random.Range(0, 4) * 90f;
+                Quaternion spawnRotation = Quaternion.Euler(0, randomYRot, 0);
+                GameObject go = Instantiate(wave.GetRandomBuilding().prefab, spawnPosition, spawnRotation, buildingsRoot);
+
+                foreach (var rend in go.GetComponentsInChildren<Renderer>())
+                    foreach (var mat in rend.materials)
+                        mat.color = Color.red;
+
+                SpawnPointList spawnPointList = go.GetComponent<SpawnPointList>();
+                if (spawnPointList != null && spawnPointList.spawnPoints.Count > 0)
+                {
+                    // Reserve first spawn point for the corner turret enemy
+                    cornerTurretSpawnPoints.Add(spawnPointList.spawnPoints[0]);
+                    // Remaining points go into the regular pool
+                    for (int j = 1; j < spawnPointList.spawnPoints.Count; j++)
+                        enemySpawnPoints.Add(spawnPointList.spawnPoints[j]);
+                }
+
+                DestructableBuilding db = go.GetComponent<DestructableBuilding>();
+                if (db != null)
+                {
+                    db.isDestructable = false;
+                    spawnedBuildings.Add(db);
+                }
+                yield return new WaitForSeconds(buildingSpawnDelay);
+            }
+
+            // Spawn one turret enemy per corner building, tinted red
+            for (int ci = 0; ci < cornerTurretSpawnPoints.Count; ci++)
+            {
+                Transform spawnPoint = cornerTurretSpawnPoints[ci];
+                if (wave.turretEnemy == null) continue;
+                Spawnable turretSpawnable = wave.turretEnemy;
+                GameObject go = Instantiate(turretSpawnable.prefab, spawnPoint.position, spawnPoint.rotation, enemiesRoot);
+
+                foreach (var rend in go.GetComponentsInChildren<Renderer>())
+                    foreach (var mat in rend.materials)
+                        mat.color = Color.red;
+
+                Enemy enemy = go.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    spawnedEnemies.Add(enemy);
+                    enemy.onDestroy?.AddListener(OnEnemyDestroyed);
+                    var turret = enemy.GetComponentInChildren<Turret>();
+                    if (turret)
+                    {
+                        turret.canAttack = false;
+                        if (ci < cornerZones.Length)
+                        {
+                            turret.pqZone = cornerZones[ci];
+                            GameManager.PQTurrets[turret.pqZone] = turret;
+                        }
+                    }
+                }
+                yield return new WaitForSeconds(buildingSpawnDelay);
+            }
+
+            //Spawn remaining Buildings (corner buildings already counted against the total, +1 for power-up)
+            int remainingBuildings = Mathf.Max(0, numBuildings - cornerLocations.Count) + 1;
+            for (int i = 0; i < remainingBuildings; i++)
+            {
                 if (i > availableLocations.Count - 1)
                 {
                     break;
@@ -99,8 +183,9 @@ namespace GorillaZilla
             }
             // yield return new WaitForSeconds(1);
 
-            //Spawn Enemies
-            for (int i = 0; i < numEnemies; i++)
+            //Spawn Enemies (corner turrets already counted against the total)
+            int remainingEnemies = Mathf.Max(0, numEnemies - cornerTurretSpawnPoints.Count);
+            for (int i = 0; i < remainingEnemies; i++)
             {
                 //Get random spawn point
                 if (enemySpawnPoints.Count == 0) break;
@@ -158,6 +243,37 @@ namespace GorillaZilla
             }
             yield return new WaitForSeconds(duration);
             buildingsRoot.gameObject.DestroyChildren();
+        }
+
+        private Vector3 FindLocationClosestToAngle(List<Vector3> locations, float targetAngle, Vector3 center)
+        {
+            Vector3 targetDir = new Vector3(
+                Mathf.Cos(targetAngle * Mathf.Deg2Rad),
+                0f,
+                Mathf.Sin(targetAngle * Mathf.Deg2Rad)
+            );
+
+            // Normalize distances so angle and distance are on the same scale
+            float maxDist = 0f;
+            foreach (var loc in locations)
+                maxDist = Mathf.Max(maxDist, (loc - center).magnitude);
+
+            const float angleWeight = 0.8f;
+            Vector3 best = locations[0];
+            float bestScore = float.MinValue;
+            foreach (var loc in locations)
+            {
+                Vector3 dir = loc - center;
+                float cosAngle = dir.magnitude > 0.001f ? Vector3.Dot(dir.normalized, targetDir) : 0f;
+                float normalizedDist = maxDist > 0.001f ? dir.magnitude / maxDist : 0f;
+                float score = angleWeight * cosAngle + (1f - angleWeight) * normalizedDist;
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    best = loc;
+                }
+            }
+            return best;
         }
 
         private List<Vector3> GetAvailableSpawnLocations()

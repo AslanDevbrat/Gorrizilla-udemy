@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wave (Template)
   m_EditorClassIdentifier: 
   numBuildings: 10
-  numEnemies: 4
+  numEnemies: 6
   buildings:
   - prefab: {fileID: 1344574636070800674, guid: cede86de5ff7d524fb75f2f420e71095, type: 3}
     weightedSpawnProbabilty: 3
@@ -29,3 +29,6 @@ MonoBehaviour:
   powerUpBuilding:
     prefab: {fileID: 6771171304812718274, guid: e823b97193a29ba4f92e96e4ba3e8aaa, type: 3}
     weightedSpawnProbabilty: 0
+  turretEnemy:
+    prefab: {fileID: 2896942873597677670, guid: f65fbc7f1378755409c56aba3cb590b3, type: 3}
+    weightedSpawnProbabilty: 3
