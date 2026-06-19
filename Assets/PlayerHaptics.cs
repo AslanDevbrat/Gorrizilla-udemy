@@ -158,6 +158,7 @@ namespace GorillaZilla
             for (int i = 0; i < 20; i++) weightJArray.Add(weightArray[i]);
             root["tracks"][0]["samples"][0]["signalIndex"] = signalIndex;
             root["tracks"][0]["samples"][0]["spatKeyframes"][0]["weights"] = weightJArray;
+            root["tracks"][0]["samples"][0]["startCrop"] = signalIndex == 163 ? 3.69 : 0;
 
             string updatedJson = root.ToString();
 
